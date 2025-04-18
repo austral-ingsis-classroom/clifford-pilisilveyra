@@ -1,3 +1,9 @@
 package edu.austral.ingsis.clifford;
 
-public interface FileSystem {}
+public sealed interface FileSystem permits File, Directory {
+  String name();
+
+  default boolean isDirectory() {
+    return this instanceof Directory;
+  }
+}
