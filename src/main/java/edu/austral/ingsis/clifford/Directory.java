@@ -20,6 +20,13 @@ public record Directory(String name, List<FileSystem> nodes, Directory parent)
       throw new IllegalArgumentException("File does not exist.");
     }
     Optional<FileSystem> targetFile = find(file.name());
+    targetFile.ifPresent(fs -> {
+      if (fs instanceof File) {
+        nodes.remove(file);
+      } else {
+        throw new IllegalArgumentException("There is no such file");
+      }
+    });
     if (targetFile.isPresent()) {
       if (targetFile.get() instanceof File) {
         nodes.remove(file);

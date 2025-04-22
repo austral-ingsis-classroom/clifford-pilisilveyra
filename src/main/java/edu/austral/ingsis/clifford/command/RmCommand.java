@@ -1,4 +1,9 @@
-package edu.austral.ingsis.clifford;
+package edu.austral.ingsis.clifford.command;
+
+import edu.austral.ingsis.clifford.Directory;
+import edu.austral.ingsis.clifford.File;
+import edu.austral.ingsis.clifford.FileSystem;
+import edu.austral.ingsis.clifford.FileSystemState;
 
 import java.util.Optional;
 

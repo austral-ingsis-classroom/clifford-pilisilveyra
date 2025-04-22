@@ -1,4 +1,4 @@
-package edu.austral.ingsis.clifford;
+package edu.austral.ingsis.clifford.command;
 
 public enum RemoveParameter {
   RECURSIVE,

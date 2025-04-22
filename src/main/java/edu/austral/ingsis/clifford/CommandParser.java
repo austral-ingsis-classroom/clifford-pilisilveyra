@@ -1,55 +1,44 @@
 package edu.austral.ingsis.clifford;
 
+import edu.austral.ingsis.clifford.command.*;
+
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class CommandParser {
 
-  public static Command parse(String input) {
-    String[] parts = input.trim().split("\\s+");
-    String command = parts[0];
-    List<String> args = Arrays.asList(parts).subList(1, parts.length);
+  private final Map<String, CommandCreator> commandMap;
 
-    switch (command) {
-      case "mkdir":
-        if (args.size() == 1) {
-          return new MkdirCommand(args.get(0));
-        }
-        break;
-      case "touch":
-        if (args.size() == 1) {
-          return new TouchCommand(args.get(0));
-        }
-        break;
-      case "ls":
-        if (args.isEmpty()) return new LsCommand(LsOrder.UNORDERED);
-        if (args.size() == 1 && args.get(0).startsWith("--ord=")) {
-          String order = args.get(0).substring("--ord=".length());
-          return new LsCommand(parseOrder(order));
-        }
-        break;
-      case "cd":
-        if (args.size() == 1) return new CdCommand(args.get(0));
-        break;
-      case "pwd":
-        return new PwdCommand();
-      case "rm":
-        if (args.size() == 1) return new RmCommand(args.get(0), RemoveParameter.UNRECURSIVE);
-        if (args.size() == 2 && args.get(0).equals("--recursive")) {
-          return new RmCommand(args.get(1), RemoveParameter.RECURSIVE);
-        }
-        break;
-      default:
-        throw new IllegalArgumentException("Comando desconocido: " + command);
+  public CommandParser(Map<String, CommandCreator> commandMap) {
+    this.commandMap = commandMap;
+  }
+
+  public Command parse(String input) {
+    ParseCommand result = getParseCommand(input);
+    CommandCreator creator = commandMap.get(result.command());
+
+    if (creator != null) {
+      return creator.create(result);
     }
+
     throw new IllegalArgumentException("Sintaxis inválida para el comando: " + input);
   }
 
-  private static LsOrder parseOrder(String order) {
-    return switch (order) {
-      case "asc" -> LsOrder.ASC;
-      case "desc" -> LsOrder.DESC;
-      default -> throw new IllegalArgumentException("Orden inválido: " + order);
-    };
+  private static ParseCommand getParseCommand(String input) {
+    String[] parts = getSplitWhitespace(input);
+    String command = parts[0];
+    List<String> args = Arrays.asList(parts).subList(1, parts.length);
+    ParseCommand result = new ParseCommand(command, args);
+    return result;
   }
+
+  public record ParseCommand(String command, List<String> args) {
+  }
+
+  private static String[] getSplitWhitespace(String input) {
+    return input.trim().split("\\s+");
+  }
+
+
 }
