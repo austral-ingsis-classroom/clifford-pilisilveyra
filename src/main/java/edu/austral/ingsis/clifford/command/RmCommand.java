@@ -26,11 +26,11 @@ public record RmCommand(String name, RemoveParameter parameter) implements Comma
     }
     FileSystemNode node = targetNode.get();
     if (node.isDirectory()) {
-      return "'" + name + "' is a directory. Use the recursive flag.";
+      return "cannot remove '" + name + "', is a directory";
     }
 
     currentDirectory.removeFile((File) node);
-    return "'" + name + "' file removed";
+    return "'" + name + "' removed";
   }
 
   private String removeRecursivelyDirectory(Directory currentDirectory) {
