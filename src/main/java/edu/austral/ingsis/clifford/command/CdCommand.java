@@ -1,44 +1,53 @@
 package edu.austral.ingsis.clifford.command;
 
 import edu.austral.ingsis.clifford.Directory;
-import edu.austral.ingsis.clifford.FileSystemState;
+import edu.austral.ingsis.clifford.FileSystemNode;
+import edu.austral.ingsis.clifford.FileSystemSession;
 
 import java.util.Optional;
 
 public record CdCommand(String directoryInfo) implements Command {
   @Override
-  public String executeCommand(FileSystemState state) {
+  public String executeCommand(FileSystemSession state) {
+    Optional<Directory> maybeTarget = targetDirectory(state, directoryInfo);
 
-    Directory targetDirectory = targetDirectory(state, directoryInfo);
-    if (targetDirectory == null) {
+    if (maybeTarget.isEmpty()) {
       return "'" + directoryInfo + "' directory does not exist";
     }
-    state.setCurrentDirectory(targetDirectory);
-    return "moved to directory '" + (targetDirectory.name()) + "'";
+
+    Directory target = maybeTarget.get();
+    state.setCurrentDirectory(target);
+    return "moved to directory '" + target.name() + "'";
   }
 
-  private Directory targetDirectory(FileSystemState fileSystem, String directory) {
-
-    Directory current =
-        directory.startsWith("/") ? fileSystem.getRoot() : fileSystem.getCurrentDirectory();
-    String[] parts = directory.split("/");
+  private Optional<Directory> targetDirectory(FileSystemSession state, String directory) {
+    Directory current = startingDirectory(state, directory);
+    String[] parts = getParts(directory);
 
     for (String part : parts) {
       if (part.isEmpty() || part.equals(".")) {
         continue;
-      } else if (part.equals("..")) {
-        if (current.parent() != null) {
-          current = current.parent();
-        }
-      } else {
-        Optional<Directory> subDirectory = current.getSubDirectory(part);
-        if (subDirectory.isPresent()) {
-          current = subDirectory.get();
-        } else {
-          return null;
-        }
       }
+
+      if (part.equals("..")) {
+        current = current.parent().orElse(current);
+        continue;
+      }
+
+      Optional<Directory> maybeSub = current.getSubDirectory(part);
+      if (maybeSub.isEmpty()) return Optional.empty();
+
+      current = maybeSub.get();
     }
-    return current;
+
+    return Optional.of(current);
+  }
+
+  private static String[] getParts(String directory) {
+    return directory.split("/");
+  }
+
+  private static Directory startingDirectory(FileSystemSession state, String directory) {
+        return directory.startsWith("/") ? state.getRoot() : state.getCurrentDirectory();
   }
 }

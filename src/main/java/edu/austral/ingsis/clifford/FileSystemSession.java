@@ -3,15 +3,16 @@ package edu.austral.ingsis.clifford;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
-public class FileSystemState {
+public class FileSystemSession {
 
-  private Directory root;
+  private final Directory root;
 
   private Directory currentDirectory;
 
-  public FileSystemState() {
-    this.root = new Directory("/", new ArrayList<>(), null);
+  public FileSystemSession() {
+    this.root = new Directory("/", new ArrayList<>(), Optional.empty());
     this.currentDirectory = root;
   }
 
@@ -29,10 +30,10 @@ public class FileSystemState {
 
   public String getCurrentPath() {
     List<String> path = new ArrayList<>();
-    Directory dir = currentDirectory;
-    while (dir != null && dir != root) {
-      path.add(dir.name());
-      dir = dir.parent();
+    Optional<Directory> current = Optional.ofNullable(currentDirectory);
+    while (current.isPresent() && current.get() != root) {
+      path.add(current.get().name());
+      current = current.get().parent();
     }
     Collections.reverse(path);
     return "/" + String.join("/", path);

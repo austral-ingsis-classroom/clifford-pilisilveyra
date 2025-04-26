@@ -2,13 +2,12 @@ package edu.austral.ingsis.clifford.command;
 
 import edu.austral.ingsis.clifford.Directory;
 import edu.austral.ingsis.clifford.File;
-import edu.austral.ingsis.clifford.FileSystemState;
-import edu.austral.ingsis.clifford.command.Command;
+import edu.austral.ingsis.clifford.FileSystemSession;
 
 public record TouchCommand(String name) implements Command {
 
   @Override
-  public String executeCommand(FileSystemState state) throws IllegalArgumentException {
+  public String executeCommand(FileSystemSession state) throws IllegalArgumentException {
     if (name.contains("/") || name.contains(" ")) {
       throw new IllegalArgumentException("Name cannot contain / neither spaces");
     }

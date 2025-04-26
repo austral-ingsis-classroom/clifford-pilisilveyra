@@ -9,6 +9,6 @@ public class RmCommandCreator implements CommandCreator{
         if (command.args().size() == 2 && command.args().get(0).equals("--recursive")) {
             return new RmCommand(command.args().get(1), RemoveParameter.RECURSIVE);
         }
-        else throw new IllegalArgumentException();
+        else throw new IllegalArgumentException("Invalid number of arguments");
     }
 }

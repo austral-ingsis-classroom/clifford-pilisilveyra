@@ -1,9 +1,8 @@
 package edu.austral.ingsis.clifford.command;
 
-import edu.austral.ingsis.clifford.FileSystemState;
+import edu.austral.ingsis.clifford.FileSystemSession;
 
-public sealed interface Command
-    permits MkdirCommand, CdCommand, LsCommand, RmCommand, TouchCommand, PwdCommand {
+public  interface Command {
 
-  String executeCommand(FileSystemState state);
+  String executeCommand(FileSystemSession state);
 }

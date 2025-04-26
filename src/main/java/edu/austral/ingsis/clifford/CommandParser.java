@@ -11,10 +11,10 @@ public class CommandParser {
   private final Map<String, CommandCreator> commandMap;
 
   public CommandParser(Map<String, CommandCreator> commandMap) {
-    this.commandMap = commandMap;
+    this.commandMap = Map.copyOf(commandMap);
   }
 
-  public Command parse(String input) {
+  public Command parse(String input) throws IllegalArgumentException {
     ParseCommand result = getParseCommand(input);
     CommandCreator creator = commandMap.get(result.command());
 
@@ -29,8 +29,7 @@ public class CommandParser {
     String[] parts = getSplitWhitespace(input);
     String command = parts[0];
     List<String> args = Arrays.asList(parts).subList(1, parts.length);
-    ParseCommand result = new ParseCommand(command, args);
-    return result;
+    return new ParseCommand(command, args);
   }
 
   public record ParseCommand(String command, List<String> args) {

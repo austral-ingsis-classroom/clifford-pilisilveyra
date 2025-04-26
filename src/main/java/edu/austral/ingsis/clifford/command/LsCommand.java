@@ -1,8 +1,8 @@
 package edu.austral.ingsis.clifford.command;
 
 import edu.austral.ingsis.clifford.Directory;
-import edu.austral.ingsis.clifford.FileSystem;
-import edu.austral.ingsis.clifford.FileSystemState;
+import edu.austral.ingsis.clifford.FileSystemNode;
+import edu.austral.ingsis.clifford.FileSystemSession;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,11 +10,11 @@ import java.util.List;
 
 public record LsCommand(LsOrder order) implements Command {
   @Override
-  public String executeCommand(FileSystemState state) {
+  public String executeCommand(FileSystemSession state) {
 
     Directory currentDirectory = state.getCurrentDirectory();
     List<String> names = new ArrayList<>();
-    for (FileSystem node : currentDirectory.nodes()) {
+    for (FileSystemNode node : currentDirectory.nodes()) {
       names.add(node.name());
     }
     switch (order) {

@@ -1,11 +1,10 @@
 package edu.austral.ingsis.clifford.command;
 
-import edu.austral.ingsis.clifford.FileSystemState;
-import edu.austral.ingsis.clifford.command.Command;
+import edu.austral.ingsis.clifford.FileSystemSession;
 
 public record PwdCommand() implements Command {
   @Override
-  public String executeCommand(FileSystemState state) {
+  public String executeCommand(FileSystemSession state) {
     return state.getCurrentPath();
   }
 }
