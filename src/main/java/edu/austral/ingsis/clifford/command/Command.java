@@ -4,5 +4,5 @@ import edu.austral.ingsis.clifford.FileSystemSession;
 
 public  interface Command {
 
-  String executeCommand(FileSystemSession state);
+  String executeCommand(FileSystemSession session);
 }

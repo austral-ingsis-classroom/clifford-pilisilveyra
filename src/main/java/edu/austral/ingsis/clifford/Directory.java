@@ -5,44 +5,32 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-public record Directory(String name, List<FileSystemNode> nodes, Optional<Directory> parent)
-    implements FileSystemNode {
+public record Directory(String name, List<FileSystemNode> nodes)
+        implements FileSystemNode {
 
-  public void add(FileSystemNode node) throws IllegalArgumentException {
+  public Directory {
+    nodes = List.copyOf(nodes);
+  }
+
+  public Directory add(FileSystemNode node) {
     if (nodes.contains(node)) {
       throw new IllegalArgumentException("Node already exists.");
     }
-    nodes.add(node);
+
+    List<FileSystemNode> newNodes = new ArrayList<>(nodes);
+    newNodes.add(node);
+    return new Directory(name, List.copyOf(newNodes));
   }
 
-  public void removeFile(File file) throws IllegalArgumentException {
-    if (!nodes.contains(file)) {
-      throw new IllegalArgumentException("File does not exist.");
-    }
-    Optional<FileSystemNode> targetNode = find(file.name());
-    targetNode.ifPresent(fs -> {
-      if (!fs.isDirectory()) {
-        nodes.remove(file);
-      } else {
-        throw new IllegalArgumentException("There is no such file");
-      }
-    });
-  }
-
-  public void removeDirectory(Directory directory) throws IllegalArgumentException {
-    if (!nodes.contains(directory)) {
-      throw new IllegalArgumentException("Directory does not exist.");
+  public Directory remove(String name) {
+    Optional<FileSystemNode> targetNodeOptional = find(name);
+    if (targetNodeOptional.isEmpty()) {
+      throw new IllegalArgumentException("Node does not exist: " + name);
     }
 
-    for (FileSystemNode node : new ArrayList<>(directory.nodes())) {
-      if (node instanceof Directory) {
-        directory.removeDirectory((Directory) node);
-      } else {
-        directory.removeFile((File) node);
-      }
-    }
-
-    nodes.remove(directory);
+    List<FileSystemNode> newNodes = new ArrayList<>(nodes);
+    newNodes.remove(targetNodeOptional.get());
+    return new Directory(name, List.copyOf(newNodes));
   }
 
   public Optional<FileSystemNode> find(String name) {
@@ -60,6 +48,19 @@ public record Directory(String name, List<FileSystemNode> nodes, Optional<Direct
     FileSystemNode node = maybeNode.get();
     if (!node.isDirectory()) return Optional.empty();
     return Optional.of((Directory) node);
+  }
+
+
+  public Directory replace(FileSystemNode updatedNode) {
+    List<FileSystemNode> newNodes = new ArrayList<>();
+    for (FileSystemNode node : nodes) {
+      if (node.name().equals(updatedNode.name())) {
+        newNodes.add(updatedNode);
+      } else {
+        newNodes.add(node);
+      }
+    }
+    return new Directory(name, newNodes);
   }
 
 

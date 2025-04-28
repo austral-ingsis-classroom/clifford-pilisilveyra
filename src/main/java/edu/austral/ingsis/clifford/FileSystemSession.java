@@ -7,13 +7,12 @@ import java.util.Optional;
 
 public class FileSystemSession {
 
-  private final Directory root;
-
-  private Directory currentDirectory;
+  private Directory root;
+  private List<String> currentPathSegments;
 
   public FileSystemSession() {
-    this.root = new Directory("/", new ArrayList<>(), Optional.empty());
-    this.currentDirectory = root;
+    this.root = new Directory("/", new ArrayList<>());
+    this.currentPathSegments = List.of(); // estamos en "/"
   }
 
   public Directory getRoot() {
@@ -21,21 +20,32 @@ public class FileSystemSession {
   }
 
   public Directory getCurrentDirectory() {
-    return currentDirectory;
+    Directory current = root;
+    for (String segment : currentPathSegments) {
+      Optional<Directory> maybeSub = current.getSubDirectory(segment);
+      if (maybeSub.isEmpty()) {
+        throw new IllegalStateException("Invalid path segment: " + segment);
+      }
+      current = maybeSub.get();
+    }
+    return current;
   }
 
-  public void setCurrentDirectory(Directory directory) {
-    this.currentDirectory = directory;
+  public void setCurrentPath(List<String> newPathSegments) {
+    this.currentPathSegments = List.copyOf(newPathSegments);
   }
 
   public String getCurrentPath() {
-    List<String> path = new ArrayList<>();
-    Optional<Directory> current = Optional.ofNullable(currentDirectory);
-    while (current.isPresent() && current.get() != root) {
-      path.add(current.get().name());
-      current = current.get().parent();
-    }
-    Collections.reverse(path);
-    return "/" + String.join("/", path);
+    if (currentPathSegments.isEmpty()) return "/";
+    return "/" + String.join("/", currentPathSegments);
   }
+
+  public List<String> getCurrentPathSegments() {
+    return currentPathSegments;
+  }
+
+  public void update(Directory updatedRoot) {
+    this.root = updatedRoot;
+  }
+
 }

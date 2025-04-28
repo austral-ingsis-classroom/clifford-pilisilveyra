@@ -1,14 +1,12 @@
 package edu.austral.ingsis;
 
 import edu.austral.ingsis.clifford.CommandRegistry;
-import edu.austral.ingsis.clifford.command.*;
 import edu.austral.ingsis.clifford.CommandParser;
 import edu.austral.ingsis.clifford.FileSystemSession;
+import edu.austral.ingsis.clifford.command.Command;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class FileSystemRunnerImpl implements FileSystemRunner {
 
@@ -18,19 +16,18 @@ public class FileSystemRunnerImpl implements FileSystemRunner {
     this.commandParser = new CommandParser(CommandRegistry.createCommandMap());
   }
 
-
   @Override
   public List<String> executeCommands(List<String> commands) {
-    FileSystemSession state = new FileSystemSession();
+    FileSystemSession currentSession = new FileSystemSession();
     List<String> results = new ArrayList<>();
 
     for (String line : commands) {
       try {
         Command command = commandParser.parse(line);
-        String output = command.executeCommand(state);
-        results.add(output);
+        String result = command.executeCommand(currentSession);
+        results.add(result);
       } catch (Exception e) {
-        results.add(e.getMessage());
+        results.add("Error: " + e.getMessage());
       }
     }
 

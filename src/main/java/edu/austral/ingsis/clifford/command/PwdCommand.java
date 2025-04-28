@@ -4,7 +4,9 @@ import edu.austral.ingsis.clifford.FileSystemSession;
 
 public record PwdCommand() implements Command {
   @Override
-  public String executeCommand(FileSystemSession state) {
-    return state.getCurrentPath();
+  public String executeCommand(FileSystemSession session) {
+    return session.getCurrentPath();
   }
+
+
 }

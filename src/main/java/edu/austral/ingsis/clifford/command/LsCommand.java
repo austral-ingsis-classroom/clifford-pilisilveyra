@@ -10,9 +10,9 @@ import java.util.List;
 
 public record LsCommand(LsOrder order) implements Command {
   @Override
-  public String executeCommand(FileSystemSession state) {
+  public String executeCommand(FileSystemSession session) {
 
-    Directory currentDirectory = state.getCurrentDirectory();
+    Directory currentDirectory = session.getCurrentDirectory();
     List<String> names = new ArrayList<>();
     for (FileSystemNode node : currentDirectory.nodes()) {
       names.add(node.name());
