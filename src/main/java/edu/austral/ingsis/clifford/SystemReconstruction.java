@@ -5,16 +5,19 @@ import java.util.Optional;
 
 public class SystemReconstruction {
 
-    public static Directory replaceInTree(Directory directory, List<String> path, Directory updatedSubtree) throws IllegalArgumentException {
-        if (path.isEmpty()) return updatedSubtree;
-        String currentSegment = path.getFirst();
+  public static Directory replaceInTree(
+      Directory directory, List<String> path, Directory updatedSubtree)
+      throws IllegalArgumentException {
+    if (path.isEmpty()) return updatedSubtree;
+    String currentSegment = path.get(0);
 
-        Optional<Directory> maybeNext = directory.getSubDirectory(currentSegment);
-        if (maybeNext.isEmpty()) throw new IllegalStateException("Invalid path during update: " + currentSegment);
+    Optional<Directory> maybeNext = directory.getSubDirectory(currentSegment);
+    if (maybeNext.isEmpty())
+      throw new IllegalStateException("Invalid path during update: " + currentSegment);
 
-        Directory next = maybeNext.get();
-        Directory updatedNext = replaceInTree(next, path.subList(1, path.size()), updatedSubtree);
+    Directory next = maybeNext.get();
+    Directory updatedNext = replaceInTree(next, path.subList(1, path.size()), updatedSubtree);
 
-        return directory.replace(updatedNext);
-    }
+    return directory.replace(updatedNext);
+  }
 }

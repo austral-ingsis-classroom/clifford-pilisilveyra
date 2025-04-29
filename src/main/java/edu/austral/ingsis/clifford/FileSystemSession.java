@@ -1,7 +1,6 @@
 package edu.austral.ingsis.clifford;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,5 +46,4 @@ public class FileSystemSession {
   public void update(Directory updatedRoot) {
     this.root = updatedRoot;
   }
-
 }

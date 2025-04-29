@@ -5,5 +5,5 @@ import edu.austral.ingsis.clifford.commands.Command;
 
 public interface CommandCreator {
 
-    Command create(CommandParser.ParseCommand command);
+  Command create(CommandParser.ParseCommand command);
 }

@@ -5,8 +5,8 @@ import edu.austral.ingsis.clifford.commands.Command;
 import edu.austral.ingsis.clifford.commands.PwdCommand;
 
 public class PwdCommandCreator implements CommandCreator {
-    @Override
-    public Command create(CommandParser.ParseCommand command) {
-        return new PwdCommand();
-    }
+  @Override
+  public Command create(CommandParser.ParseCommand command) {
+    return new PwdCommand();
+  }
 }

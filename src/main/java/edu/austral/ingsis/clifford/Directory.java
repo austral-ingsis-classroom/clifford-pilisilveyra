@@ -5,8 +5,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-public record Directory(String name, List<FileSystemNode> nodes)
-        implements FileSystemNode {
+public record Directory(String name, List<FileSystemNode> nodes) implements FileSystemNode {
 
   public Directory {
     nodes = List.copyOf(nodes);
@@ -50,7 +49,6 @@ public record Directory(String name, List<FileSystemNode> nodes)
     return Optional.of((Directory) node);
   }
 
-
   public Directory replace(FileSystemNode updatedNode) {
     List<FileSystemNode> newNodes = new ArrayList<>();
     for (FileSystemNode node : nodes) {
@@ -62,6 +60,4 @@ public record Directory(String name, List<FileSystemNode> nodes)
     }
     return new Directory(name, newNodes);
   }
-
-
 }

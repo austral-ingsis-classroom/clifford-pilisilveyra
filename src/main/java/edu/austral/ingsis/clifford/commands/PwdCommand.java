@@ -7,6 +7,4 @@ public record PwdCommand() implements Command {
   public String executeCommand(FileSystemSession session) {
     return session.getCurrentPath();
   }
-
-
 }

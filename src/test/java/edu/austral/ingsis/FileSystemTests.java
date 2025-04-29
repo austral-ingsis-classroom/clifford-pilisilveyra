@@ -80,7 +80,6 @@ public class FileSystemTests {
             entry("cd /", "moved to directory '/'")));
   }
 
-
   @Test
   void test5() {
     executeTest(
@@ -121,6 +120,4 @@ public class FileSystemTests {
             entry("ls", "emily.txt jetta.txt"),
             entry("ls --ord=desc", "jetta.txt emily.txt")));
   }
-
-
 }

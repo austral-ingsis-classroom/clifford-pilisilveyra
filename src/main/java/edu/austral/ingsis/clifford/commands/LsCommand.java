@@ -3,7 +3,6 @@ package edu.austral.ingsis.clifford.commands;
 import edu.austral.ingsis.clifford.Directory;
 import edu.austral.ingsis.clifford.FileSystemNode;
 import edu.austral.ingsis.clifford.FileSystemSession;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

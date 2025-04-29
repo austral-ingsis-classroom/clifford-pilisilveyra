@@ -16,7 +16,9 @@ public record TouchCommand(String name) implements Command {
     File newFile = new File(name);
     Directory currentDirectory = session.getCurrentDirectory();
     Directory updatedDirectory = currentDirectory.add(newFile);
-    Directory newRoot = SystemReconstruction.replaceInTree(session.getRoot(), session.getCurrentPathSegments(), updatedDirectory);
+    Directory newRoot =
+        SystemReconstruction.replaceInTree(
+            session.getRoot(), session.getCurrentPathSegments(), updatedDirectory);
     session.update(newRoot);
 
     return "'" + name + "' file created";

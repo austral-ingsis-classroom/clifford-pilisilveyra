@@ -2,7 +2,6 @@ package edu.austral.ingsis.clifford;
 
 import edu.austral.ingsis.clifford.commandcreators.CommandCreator;
 import edu.austral.ingsis.clifford.commands.*;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -33,12 +32,9 @@ public class CommandParser {
     return new ParseCommand(command, args);
   }
 
-  public record ParseCommand(String command, List<String> args) {
-  }
+  public record ParseCommand(String command, List<String> args) {}
 
   private static String[] getSplitWhitespace(String input) {
     return input.trim().split("\\s+");
   }
-
-
 }
