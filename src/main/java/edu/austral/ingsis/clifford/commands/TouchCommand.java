@@ -1,9 +1,9 @@
-package edu.austral.ingsis.clifford.command;
+package edu.austral.ingsis.clifford.commands;
 
 import edu.austral.ingsis.clifford.Directory;
 import edu.austral.ingsis.clifford.File;
 import edu.austral.ingsis.clifford.FileSystemSession;
-import edu.austral.ingsis.clifford.SystemReconstructor;
+import edu.austral.ingsis.clifford.SystemReconstruction;
 
 public record TouchCommand(String name) implements Command {
 
@@ -16,7 +16,7 @@ public record TouchCommand(String name) implements Command {
     File newFile = new File(name);
     Directory currentDirectory = session.getCurrentDirectory();
     Directory updatedDirectory = currentDirectory.add(newFile);
-    Directory newRoot = SystemReconstructor.replaceInTree(session.getRoot(), session.getCurrentPathSegments(), updatedDirectory);
+    Directory newRoot = SystemReconstruction.replaceInTree(session.getRoot(), session.getCurrentPathSegments(), updatedDirectory);
     session.update(newRoot);
 
     return "'" + name + "' file created";

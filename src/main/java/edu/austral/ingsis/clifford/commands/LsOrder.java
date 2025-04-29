@@ -1,4 +1,4 @@
-package edu.austral.ingsis.clifford.command;
+package edu.austral.ingsis.clifford.commands;
 
 public enum LsOrder {
   ASC,

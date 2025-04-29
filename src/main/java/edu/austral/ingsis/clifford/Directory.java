@@ -22,15 +22,15 @@ public record Directory(String name, List<FileSystemNode> nodes)
     return new Directory(name, List.copyOf(newNodes));
   }
 
-  public Directory remove(String name) {
-    Optional<FileSystemNode> targetNodeOptional = find(name);
+  public Directory remove(String dirName) {
+    Optional<FileSystemNode> targetNodeOptional = find(dirName);
     if (targetNodeOptional.isEmpty()) {
       throw new IllegalArgumentException("Node does not exist: " + name);
     }
 
     List<FileSystemNode> newNodes = new ArrayList<>(nodes);
     newNodes.remove(targetNodeOptional.get());
-    return new Directory(name, List.copyOf(newNodes));
+    return new Directory(this.name, List.copyOf(newNodes));
   }
 
   public Optional<FileSystemNode> find(String name) {

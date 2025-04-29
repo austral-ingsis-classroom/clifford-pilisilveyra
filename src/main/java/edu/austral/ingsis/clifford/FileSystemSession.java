@@ -12,21 +12,21 @@ public class FileSystemSession {
 
   public FileSystemSession() {
     this.root = new Directory("/", new ArrayList<>());
-    this.currentPathSegments = List.of(); // estamos en "/"
+    this.currentPathSegments = List.of();
   }
 
   public Directory getRoot() {
     return root;
   }
 
-  public Directory getCurrentDirectory() {
+  public Directory getCurrentDirectory() throws IllegalArgumentException {
     Directory current = root;
     for (String segment : currentPathSegments) {
-      Optional<Directory> maybeSub = current.getSubDirectory(segment);
-      if (maybeSub.isEmpty()) {
+      Optional<Directory> maybeSubDirectory = current.getSubDirectory(segment);
+      if (maybeSubDirectory.isEmpty()) {
         throw new IllegalStateException("Invalid path segment: " + segment);
       }
-      current = maybeSub.get();
+      current = maybeSubDirectory.get();
     }
     return current;
   }

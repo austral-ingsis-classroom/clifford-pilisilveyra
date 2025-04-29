@@ -1,8 +1,11 @@
-package edu.austral.ingsis.clifford.command;
+package edu.austral.ingsis.clifford.commandcreators;
 
 import edu.austral.ingsis.clifford.CommandParser;
+import edu.austral.ingsis.clifford.commands.Command;
+import edu.austral.ingsis.clifford.commands.LsCommand;
+import edu.austral.ingsis.clifford.commands.LsOrder;
 
-public class LsCommandCreator implements CommandCreator{
+public class LsCommandCreator implements CommandCreator {
     @Override
     public Command create(CommandParser.ParseCommand command) throws IllegalArgumentException {
         if (command.args().isEmpty()) {

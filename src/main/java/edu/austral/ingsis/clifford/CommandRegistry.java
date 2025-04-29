@@ -1,12 +1,12 @@
 package edu.austral.ingsis.clifford;
 
-import edu.austral.ingsis.clifford.command.CdCommandCreator;
-import edu.austral.ingsis.clifford.command.CommandCreator;
-import edu.austral.ingsis.clifford.command.LsCommandCreator;
-import edu.austral.ingsis.clifford.command.MkdirCommandCreator;
-import edu.austral.ingsis.clifford.command.PwdCommandCreator;
-import edu.austral.ingsis.clifford.command.RmCommandCreator;
-import edu.austral.ingsis.clifford.command.TouchCommandCreator;
+import edu.austral.ingsis.clifford.commandcreators.CdCommandCreator;
+import edu.austral.ingsis.clifford.commandcreators.CommandCreator;
+import edu.austral.ingsis.clifford.commandcreators.LsCommandCreator;
+import edu.austral.ingsis.clifford.commandcreators.MkdirCommandCreator;
+import edu.austral.ingsis.clifford.commandcreators.PwdCommandCreator;
+import edu.austral.ingsis.clifford.commandcreators.RmCommandCreator;
+import edu.austral.ingsis.clifford.commandcreators.TouchCommandCreator;
 
 import java.util.Map;
 

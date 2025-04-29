@@ -1,4 +1,4 @@
-package edu.austral.ingsis.clifford.command;
+package edu.austral.ingsis.clifford.commands;
 
 import edu.austral.ingsis.clifford.FileSystemSession;
 

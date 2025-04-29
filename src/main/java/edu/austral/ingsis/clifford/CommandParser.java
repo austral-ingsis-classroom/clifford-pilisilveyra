@@ -1,6 +1,7 @@
 package edu.austral.ingsis.clifford;
 
-import edu.austral.ingsis.clifford.command.*;
+import edu.austral.ingsis.clifford.commandcreators.CommandCreator;
+import edu.austral.ingsis.clifford.commands.*;
 
 import java.util.Arrays;
 import java.util.List;

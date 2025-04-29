@@ -1,8 +1,10 @@
-package edu.austral.ingsis.clifford.command;
+package edu.austral.ingsis.clifford.commandcreators;
 
 import edu.austral.ingsis.clifford.CommandParser;
+import edu.austral.ingsis.clifford.commands.CdCommand;
+import edu.austral.ingsis.clifford.commands.Command;
 
-public class CdCommandCreator implements CommandCreator{
+public class CdCommandCreator implements CommandCreator {
     @Override
     public Command create(CommandParser.ParseCommand command) throws IllegalArgumentException {
         if (command.args().size() == 1) {
