@@ -5,13 +5,13 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-public record Directory(String name, List<FileSystemNode> nodes) implements FileSystemNode {
+public record Directory(String name, List<FileSystemNode> nodes) implements FileSystemNode { // Composite
 
   public Directory {
     nodes = List.copyOf(nodes);
   }
 
-  public Directory add(FileSystemNode node) {
+  public Directory add(FileSystemNode node) throws IllegalArgumentException {
     if (nodes.contains(node)) {
       throw new IllegalArgumentException("Node already exists.");
     }
@@ -21,7 +21,7 @@ public record Directory(String name, List<FileSystemNode> nodes) implements File
     return new Directory(name, List.copyOf(newNodes));
   }
 
-  public Directory remove(String dirName) {
+  public Directory remove(String dirName) throws IllegalArgumentException {
     Optional<FileSystemNode> targetNodeOptional = find(dirName);
     if (targetNodeOptional.isEmpty()) {
       throw new IllegalArgumentException("Node does not exist: " + name);
@@ -59,5 +59,10 @@ public record Directory(String name, List<FileSystemNode> nodes) implements File
       }
     }
     return new Directory(name, newNodes);
+  }
+
+  @Override
+  public boolean isDirectory() {
+    return true;
   }
 }

@@ -16,7 +16,7 @@ public record RmCommand(String name, RemoveParameter parameter) implements Comma
       return "No such file or directory";
     }
 
-    if (targetNode.get().isDirectory() && !parameter.equals(RemoveParameter.RECURSIVE)) {
+    if (isDirectoryAndParamIsNotRecursive(targetNode.get())) {
       return "cannot remove '" + name + "', is a directory";
     }
 
@@ -28,5 +28,9 @@ public record RmCommand(String name, RemoveParameter parameter) implements Comma
     session.setCurrentPath(session.getCurrentPathSegments());
 
     return "'" + name + "' removed";
+  }
+
+  private boolean isDirectoryAndParamIsNotRecursive(FileSystemNode targetNode) {
+    return targetNode.isDirectory() && !parameter.equals(RemoveParameter.RECURSIVE);
   }
 }
